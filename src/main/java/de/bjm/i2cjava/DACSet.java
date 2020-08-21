@@ -20,16 +20,28 @@ public class DACSet {
         I2CBus Bus = I2CFactory.getInstance(I2CBus.BUS_1);
         // Get I2C device, MCP3428 I2C address is 0x68(104)
 
-        I2CDevice mul = Bus.getDevice(0x77);
+        // TODO I2CDevice mul = Bus.getDevice(0x77);
         I2CDevice dac = Bus.getDevice(Integer.decode(args[1]));
         Thread.sleep(300);
 
-        int v = Integer.parseInt(args[2]);
-        if (v > 10000) {
-            System.err.println("Only 0-10000 allowed!");
-            return;
+        int i;
+
+        if (args[2].startsWith("0x")) {
+            i = Integer.decode(args[2]);
+        } else {
+
+
+            /*
+            int v = Integer.parseInt(args[2]);
+            if (v > 10000) {
+                System.err.println("Only 0-10000 allowed!");
+                return;
+            }
+            i = (int) Math.round((v) / 2.44);
+            */
+
+            i = Integer.parseInt(args[2], 2);
         }
-        int i = (int) Math.round((v)/2.44);
 
         short l = Short.parseShort(Integer.toBinaryString(i), 2);
         ByteBuffer bytes = ByteBuffer.allocate(2).putShort(l);
@@ -44,7 +56,7 @@ public class DACSet {
 
 
         int mulByte = Integer.decode(args[0]);
-        mul.write((byte)mulByte);
+        // TODO mul.write((byte)mulByte);
         System.out.println("Setting DAC....");
         //                          \/ Config Byte    \/  &  \/  Data bytes (last 4 bits of last byte unused)
         byte[] out = new byte[]{(byte)0x40, write[0], write[1]};

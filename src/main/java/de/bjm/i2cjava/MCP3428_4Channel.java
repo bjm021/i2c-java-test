@@ -19,12 +19,12 @@ public class MCP3428_4Channel
         I2CBus Bus = I2CFactory.getInstance(I2CBus.BUS_1);
         // Get I2C device, MCP3428 I2C address is 0x68(104)
 
-        I2CDevice mul = Bus.getDevice(0x77);
+        // TODO I2CDevice mul = Bus.getDevice(0x77);
         I2CDevice dac = Bus.getDevice(0x60);
         I2CDevice adc = Bus.getDevice(0x68);
         Thread.sleep(300);
 
-        mul.write((byte)0xB);
+        // TODO mul.write((byte)0xB);
 
         System.out.println("Setting DAC to 10V");
         //                          \/ Config Byte    \/  &  \/  Data bytes (last 4 bits of last byte unused)
@@ -32,7 +32,7 @@ public class MCP3428_4Channel
         dac.write(write);
 
         System.out.println("Attempting to read channel 2!");
-        mul.write((byte)0x8);
+        // TODO mul.write((byte)0x8);
 
         adc.write((byte)0x38);
         byte[] output = new byte[2];
